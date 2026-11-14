@@ -44,7 +44,7 @@
 
   // цели аналитики
   function goal(name, params) {
-    try { if (window.ym && window.YM_ID) window.ym(window.YM_ID, 'reachGoal', name, params || {}); } catch (e) {}
+    try { if (window.ym) (window.YM_IDS || [window.YM_ID]).forEach(function (id) { if (id) window.ym(id, 'reachGoal', name, params || {}); }); } catch (e) {}
     try { if (window.gtag) window.gtag('event', name, params || {}); } catch (e) {}
   }
   window.bbGoal = goal;
