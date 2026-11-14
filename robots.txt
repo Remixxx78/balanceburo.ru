@@ -3,4 +3,3 @@ Allow: /
 Disallow: /404.html
 
 Sitemap: https://balanceburo.ru/sitemap.xml
-Host: https://balanceburo.ru
