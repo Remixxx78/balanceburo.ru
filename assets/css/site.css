@@ -149,6 +149,7 @@ a{color:inherit}
 .art table{width:100%;border-collapse:collapse;margin:32px 0;font-size:16px}
 .art th,.art td{border-bottom:1px solid #333;padding:12px 8px;text-align:left;vertical-align:top}
 .art th{color:var(--muted);font-weight:500}
+@media(max-width:700px){.art table{display:block;overflow-x:auto;font-size:15px}.art th,.art td{min-width:140px}}
 .tablewrap{overflow-x:auto}
 .toc{border:1px solid #333;border-radius:16px;padding:20px 24px;margin:0 0 48px}
 .toc b{display:block;font-size:14px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;font-weight:500}
