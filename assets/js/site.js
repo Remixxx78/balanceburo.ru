@@ -65,6 +65,7 @@
       e.preventDefault();
       var st = f.querySelector('.status, .qform__ok');
       if (f.querySelector('.hp input') && f.querySelector('.hp input').value) return; // бот
+      if (f.closest('.leadform--light') && !f.reportValidity()) return;
       var data = {}; new FormData(f).forEach(function (v, k) { if (typeof v !== 'string') return; data[k] = data[k] ? data[k] + ', ' + v : v; });
       data.form = f.getAttribute('data-lead'); data.page = location.pathname; data.ref = d.referrer || '';
       var q = location.search; if (q) data.utm = q.slice(1);
