@@ -1,4 +1,4 @@
-/* Balance Buro — движение (Михаил 17.11): мягкое появление блоков, плавная прокрутка, заливка текста,
+/* Balance Buro — движение (Михаил 17.11): мягкое появление блоков, заливка текста,
    /about (шоурил крупнее при прокрутке, кнопка за мышью), главная (кружки B/B падают на заголовок).
    Без библиотек. Всё выключается при prefers-reduced-motion. Подключён до site.js (тот раздаёт .in для .rv). */
 (function () {
@@ -24,34 +24,7 @@
     } else d.querySelectorAll('.rv-img').forEach(function (el) { el.classList.add('in'); });
   }
 
-  // 2. плавная прокрутка колесом (только мышь на компьютере): позиция остаётся родной, sticky и якоря работают
-  if (!calm && fine) {
-    var target = W.scrollY, cur = W.scrollY, running = false;
-    function nativeScrollable(el) {
-      for (; el && el !== d.body; el = el.parentElement) {
-        if (el.matches && el.matches('dialog, .menu, .tablewrap, [data-native-scroll]')) return true;
-        var o = getComputedStyle(el).overflowY;
-        if ((o === 'auto' || o === 'scroll') && el.scrollHeight > el.clientHeight) return true;
-      }
-      return false;
-    }
-    function step() {
-      cur += (target - cur) * 0.12;
-      if (Math.abs(target - cur) < 0.5) { cur = target; running = false; }
-      W.scrollTo(0, cur);
-      if (running) raf(step);
-    }
-    W.addEventListener('wheel', function (e) {
-      if (e.ctrlKey || e.defaultPrevented || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-      if (d.querySelector('.menu.is-open, dialog[open]') || nativeScrollable(e.target)) return;
-      e.preventDefault();
-      if (!running) { cur = W.scrollY; target = W.scrollY; }
-      var dy = e.deltaMode === 1 ? e.deltaY * 40 : e.deltaMode === 2 ? e.deltaY * W.innerHeight : e.deltaY;
-      target = clamp(target + dy, 0, d.documentElement.scrollHeight - W.innerHeight);
-      if (!running) { running = true; raf(step); }
-    }, { passive: false });
-    W.addEventListener('scroll', function () { if (!running) { cur = target = W.scrollY; } }, { passive: true });
-  }
+  // 2. прокрутка — родная браузерная (Михаил 17.11: своя «плавная» ломала прокрутку вверх на трекпаде — не возвращать)
 
   // 3. заливка текста на чёрном: слова после первой фразы наливаются белым по мере прокрутки
   d.querySelectorAll('[data-fill]').forEach(function (p) {

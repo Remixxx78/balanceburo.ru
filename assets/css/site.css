@@ -510,7 +510,7 @@ a{color:inherit}
 /* шапка на светлой странице после прокрутки — чёрная полоса, как на старом сайте (было полупрозрачное серое) */
 .light-top .hdr.is-scrolled{background:#000;color:#fff;backdrop-filter:none;-webkit-backdrop-filter:none}
 /* зерно: на градиентах — плёнка как на старом сайте, на светлых фонах — бумажная крошка */
-.h-hero__noise{position:absolute;inset:0;background:url('/assets/bg/noise.webp') center/400px;mix-blend-mode:soft-light;opacity:.3;pointer-events:none}
+.h-hero__noise{position:absolute;inset:0;background:url('/assets/bg/noise.webp') center/400px;mix-blend-mode:soft-light;opacity:.14;pointer-events:none}
 .ab-top,.foot{background-image:url('/assets/bg/grain-light.webp');background-size:240px;background-repeat:repeat}
 /* тонкие линии построения (как microdose): только первый экран главной — без перегруза (Михаил 17.11) */
 .lines{position:absolute;inset:0;pointer-events:none;overflow:hidden;color:#fff;opacity:.13}
