@@ -483,3 +483,75 @@ a{color:inherit}
 @media(max-width:1099px){.art-page{--art-gap:64px;--art-radius:28px;--art-offset:0px}.art-reading{display:flex;flex-direction:column;gap:36px}.art-body,.art-toc{width:100%;max-width:100%}.art-toc{position:static;max-height:none;padding:0;overflow:hidden}.art-toc-wide{display:none}.art-toc-small{display:block}.art-toc summary:is(:hover,:focus-visible,:active){background:#eee;color:#000}.art-toc summary{display:flex;align-items:center;justify-content:space-between;list-style:none;padding:12px 24px;cursor:pointer;color:#000}.art-toc-small nav{padding:0 12px 20px}.art-toc a{font-size:16px}.art-intro{grid-template-columns:190px minmax(0,1fr);gap:32px}.art-hero-details{gap:28px}.art-lead{font-size:28px}.art-lead-points{font-size:18px}.art-faq{grid-template-columns:190px minmax(0,1fr);padding-top:32px;gap:32px}.art-grid{grid-template-columns:1fr 1fr}.art-grid--1{grid-template-columns:1fr}.art-cta{gap:32px}}
 @media(max-width:700px){.art-page{--art-gap:52px;--art-btn-h:56px;padding-bottom:72px}.art-page [id]{scroll-margin-top:150px}.art-page .crumbs{padding-top:88px;font-size:12px}.art-hero h1{font-size:40px;margin:24px 0}.art-intro{display:flex;flex-direction:column;gap:24px}.art-meta{flex-direction:row;align-items:center;flex-wrap:wrap;gap:8px 24px;font-size:13px}.art-minutes svg{width:20px;height:27px}.art-minutes>span{font-size:20px}.art-minutes small{font-size:13px}.art-lead{font-size:25px}.art-hero-details{display:flex;flex-direction:column;gap:28px;margin-top:28px}.art-cover{width:100%}.art-lead-points{font-size:18px;line-height:1.45}.art-body{font-size:18px;line-height:1.55}.art-body h2{font-size:30px;margin-top:52px;padding-top:24px}.art-body h3{font-size:24px}.art-body .art-key{font-size:21px;padding:24px}.art-cards{grid-template-columns:1fr}.art-cards>.art-card:last-child:nth-child(odd){grid-column:auto}.art-card{padding:24px 0}.art-cards--links .art-card{padding:20px}.art-card p,.art-card li{font-size:18px}.art-cards--links p{font-size:17px}.art-body .art-ext img{height:auto;max-height:320px;object-fit:contain}.art-split{display:flex;flex-direction:column;align-items:stretch;gap:24px}.art-split>.art-ill{max-width:none;align-self:center;width:100%;max-height:none}.art-split>.art-ill img{width:100%;height:auto}.art-body>figure:not(.art-ill){padding:0}.art-body .art-case[data-case]{display:block;padding:28px 0}.art-case-logo{max-width:112px;margin-bottom:24px}.art-body .art-case[data-case]>h3{margin-top:0}.art-stats{grid-template-columns:1fr}.art-stats>div{display:flex;align-items:center;gap:20px;padding:16px 0}.art-stats b{font-size:52px;min-width:115px;margin:0}.art-cards--sizes .art-ill{max-width:220px}.art-body .art-steps>li{padding-left:44px}.art-body .art-compare-desktop{display:none}.art-compare-mobile{display:grid;gap:16px;margin:32px 0}.art-ba{grid-template-columns:1fr}.art-ba>.art-credit{grid-column:auto}.art-body .art-cta-in{display:block;font-size:17px}.art-cta-in p{margin-bottom:20px}.art-btn{padding:5px 6px 5px 20px;font-size:13px;gap:16px}.art-faq{display:block;padding-top:32px}.art-faq-aside{margin-bottom:28px}.art-faq-aside .art-title{font-size:32px;margin:0;max-width:none}.art-faq summary{width:96%;font-size:18px;padding:20px;gap:16px}.art-answer{max-width:96%;font-size:18px;padding:20px}.art-author{padding:24px 0;gap:16px;align-items:flex-start}.art-avatar{width:56px;height:56px;flex-basis:56px}.art-bio{flex-basis:calc(100% - 72px)}.art-name{font-size:21px}.art-author p{font-size:14px}.art-title{font-size:36px;margin-bottom:28px}.art-grid{grid-template-columns:1fr}.art-row{grid-template-columns:96px minmax(0,1fr) 36px;gap:12px;padding:20px 0}.art-thumb{border-radius:16px}.art-related h3{font-size:18px}.art-row>.art-arrow{width:36px;height:36px;flex-basis:36px;font-size:18px}.art-related time{font-size:12px}.art-cta{display:block;padding:32px 24px}.art-cta-title{font-size:28px}.art-cta>.art-btn{margin-top:28px}}
 @media(prefers-reduced-motion:reduce){.art-page *{transition:none!important}.art-row:hover .art-thumb img{transform:none}}
+
+/* ===== Волна правок Михаила 17.11 (вечер): наведение, выделение, зерно, линии, появление ===== */
+:root{--hv-orange:#e64f0f;--hv-gray:#8c8c8c;--sel:#1f4dff;--ease-out:cubic-bezier(.2,.7,.2,1);--ease-io:cubic-bezier(.6,0,.2,1)}
+::selection{background:var(--sel);color:#fff}
+/* кнопки-пилюли по всему сайту: при наведении плавно заливаются оранжевым, текст белый */
+.btn,.art-btn{transition:background-color .35s ease,color .35s ease,border-color .35s ease}
+.btn:is(:hover,:focus-visible),.btn--light:is(:hover,:focus-visible),.btn--ghost:is(:hover,:focus-visible),
+.art-page .art-btn:is(:hover,:focus-visible,:active),.art-page .art-btn--dark:is(:hover,:focus-visible,:active),.art-body .art-btn--inline:is(:hover,:focus-visible){background:var(--hv-orange);color:#fff;border-color:var(--hv-orange)}
+.art-page .art-btn:is(:hover,:focus-visible) .art-arrow{background:#fff;color:var(--hv-orange)}
+/* текстовые ссылки: серый + толстое подчёркивание выезжает слева (как в футере moisez) */
+.ab-svc li a,.ct__big a,.foot__cols a,.h-hero__bar a,.h-hero__bar .reel span,.ab-vid__h a{--ul:max(2px,.07em);background:linear-gradient(currentColor,currentColor) no-repeat right 100%/0 var(--ul);transition:background-size .45s var(--ease-io),color .3s ease}
+.ab-svc li a:is(:hover,:focus-visible),.ct__big a:is(:hover,:focus-visible),.foot__cols a:is(:hover,:focus-visible),.h-hero__bar a:is(:hover,:focus-visible),.h-hero__bar .reel:is(:hover,:focus-visible) span{color:var(--hv-gray);background-size:100% var(--ul);background-position:left 100%}
+.ab-svc li a{width:fit-content;padding:0;margin:0 0 32px}
+.ct__big a{width:fit-content}
+.h-hero__bar .reel span small,.h-hero__bar a small{background:none}
+/* подчёркнутые ссылки: плавно становятся оранжевыми */
+.menu__foot a,.foot__big{transition:color .3s ease,border-color .3s ease}
+.menu__foot a:is(:hover,:focus-visible){color:var(--hv-orange);border-color:var(--hv-orange)}
+.foot__big:is(:hover,:focus-visible){color:var(--hv-orange)}.foot__mail:is(:hover,:focus-visible){color:#000}
+/* меню, шапка, принципы: плавный серый */
+.menu__nav a,.hdr a,.hdr__menu{transition:color .3s ease,opacity .3s ease}
+.hdr a:hover,.hdr__menu:hover{opacity:.6}
+.princ summary{transition:color .35s ease}.princ summary::after{transition:color .35s ease,transform .35s var(--ease-out)}
+.princ summary:hover,.princ summary:hover::after{color:var(--hv-gray)}
+/* шапка на светлой странице после прокрутки — чёрная полоса, как на старом сайте (было полупрозрачное серое) */
+.light-top .hdr.is-scrolled{background:#000;color:#fff;backdrop-filter:none;-webkit-backdrop-filter:none}
+/* зерно: на градиентах — плёнка как на старом сайте, на светлых фонах — бумажная крошка */
+.h-hero__noise{position:absolute;inset:0;background:url('/assets/bg/noise.webp') center/400px;mix-blend-mode:soft-light;opacity:.3;pointer-events:none}
+.ab-top,.foot{background-image:url('/assets/bg/grain-light.webp');background-size:240px;background-repeat:repeat}
+/* тонкие линии построения (как microdose): только первый экран главной — без перегруза (Михаил 17.11) */
+.lines{position:absolute;inset:0;pointer-events:none;overflow:hidden;color:#fff;opacity:.13}
+.lines svg{position:absolute;left:50%;top:50%;width:max(100%,1600px);height:auto;transform:translate(-50%,-50%)}
+.lines--ruler::after{content:"";position:absolute;right:var(--pad);top:28%;width:56px;height:40%;background:repeating-linear-gradient(to bottom,currentColor 0 1px,transparent 1px 11px) right/32px 100% no-repeat,repeating-linear-gradient(to bottom,currentColor 0 1px,transparent 1px 55px) right/56px 100% no-repeat}
+@media (max-width:640px){.lines{opacity:.12}.lines--ruler::after{display:none}}
+.h-hero>:where(:not(.h-hero__noise,.lines,.bb-drop)){position:relative;z-index:2}
+/* карточки блога, услуг, вакансий: прямоугольные 16:9 — обложки статей не обрезаются (замок: tools/check_covers.py) */
+.card .ratio{--r:16/9}
+/* появление при прокрутке (как moisez): глубже сдвиг, мягкая кривая, лесенка у соседей; картинки — шторкой */
+.rv{transform:translateY(40px);transition:opacity .9s var(--ease-out),transform 1s var(--ease-out);transition-delay:calc(var(--i,0) * 90ms)}
+.rv-img{clip-path:inset(18% 0 0 0);transition:clip-path 1.2s var(--ease-out);transition-delay:calc(var(--i,0) * 90ms)}
+.rv-img img{transform:scale(1.12);transition:transform 1.6s var(--ease-out)}
+.rv-img.in{clip-path:inset(0)}.rv-img.in img{transform:none}
+/* заливка текста на чёрном: первая фраза белая с оранжевой точкой, остальное серое и наливается белым при прокрутке */
+.fill-txt{color:#4a4a4a}.fill-txt .fw{transition:color .25s linear}.fill-txt .fw.on,.fill-txt b{color:#fff}.fill-txt b{font-weight:inherit}.fill-txt i.dot{font-style:normal;color:var(--hv-orange)}
+.ab-intro{font-weight:300;font-size:clamp(26px,3.3vw,50px);line-height:1.14;letter-spacing:-.02em;margin:0;padding-block:120px 72px;max-width:1240px}
+@media (max-width:640px){.ab-intro{padding-block:72px 40px;text-align:left!important}}
+/* /about: заголовок стоит на месте, фото проезжают, буквы инвертируются (как на Тильде: белый + exclusion) */
+.ab-top{overflow-x:clip}
+.ab-top h1{position:sticky;top:min(23.6vw,50vh);color:#fff;mix-blend-mode:exclusion;z-index:8}
+.ab-fix{position:absolute;left:0;right:0;top:23.6vw;height:calc(200vw + 9vw);pointer-events:none}
+.ab-fix h1 a{pointer-events:auto;color:inherit;text-decoration:none}
+.ab-p1{z-index:7}.ab-p2{z-index:6}.ab-p3{z-index:9}.ab-p4{z-index:10}.ab-p5{z-index:5}
+.ab-vid{z-index:11;background:inherit;padding-top:24px}
+.ab-vid__h{margin:0 0 40px 33%;font-weight:300;font-size:clamp(36px,5.6vw,80px);letter-spacing:-.03em;line-height:1;color:#000}
+.ab-vid__box{position:relative;overflow:visible}
+.ab-vid__box video{transform-origin:50% 40%;will-change:transform}
+.ab-vid button{top:50%;transition:background-color .35s ease,color .35s ease}
+.ab-vid button:is(:hover,:focus-visible){background:var(--hv-orange);color:#fff}
+@media (max-width:640px){.ab-fix{top:56vw;height:calc(340vw + 13vw)}.ab-top h1{top:min(56vw,45vh)}.ab-vid__h{margin-left:0}}
+/* вход страницы /about: шапка и заголовок сверху вниз, первые фото снизу вверх (1 с, 100 px — как на Тильде) */
+@keyframes bbDown{from{opacity:0;transform:translateY(-100px)}to{opacity:1;transform:none}}
+@keyframes bbUp{from{opacity:0;transform:translateY(100px)}to{opacity:1;transform:none}}
+.light-top .hdr__in>*{animation:bbDown 1s var(--ease-out) both}
+.ab-top h1{animation:bbDown 1s var(--ease-out) both}
+.ab-p1,.ab-p2,.ab-p3{animation:bbUp 1s var(--ease-out) both}.ab-p2{animation-delay:.1s}.ab-p3{animation-delay:.2s}
+/* главная: падающие кружки B/B (эксперимент) */
+.bb-drop{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
+.bb-drop span{position:absolute;left:0;top:0;width:var(--d);height:var(--d);margin:calc(var(--d) / -2) 0 0 calc(var(--d) / -2);border-radius:50%;display:flex;align-items:center;justify-content:center;font:500 calc(var(--d) * .3)/1 var(--f);letter-spacing:-.04em;will-change:transform;pointer-events:none;user-select:none}
+.bb-drop .o{background:var(--hv-orange);color:#111;box-shadow:inset 0 0 0 calc(var(--d) * .035) var(--hv-orange),inset 0 0 0 calc(var(--d) * .05) #111}
+.bb-drop .k{background:#111;color:var(--hv-orange);box-shadow:inset 0 0 0 calc(var(--d) * .05) #111,inset 0 0 0 calc(var(--d) * .065) var(--hv-orange)}
+.bb-drop .w{background:#fff;color:#111;box-shadow:inset 0 0 0 1.5px #111}
+@media (prefers-reduced-motion:reduce){.rv,.rv-img,.rv-img img{transition:none!important;transform:none!important;clip-path:none!important;opacity:1!important}.bb-drop{display:none}.ab-top h1,.ab-p1,.ab-p2,.ab-p3,.light-top .hdr__in>*{animation:none}}
