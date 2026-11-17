@@ -1,6 +1,4 @@
 /* Balance Buro — собственная вёрстка (без кода Тильды). Шрифт Inter, self-hosted. */
-@import url('/assets/fonts/inter.css');
-@import url('/assets/fonts/inter-italic.css');
 :root{
   --bg:#000; --fg:#fff; --muted:#808080; --line:rgba(255,255,255,.35);
   --card:#fff; --card-fg:#000; --accent:#f07c4f; --tg:#2a6fd6;
@@ -83,6 +81,9 @@ a{color:inherit}
 .slider__dots{display:flex;gap:8px;justify-content:center;margin-top:16px}
 .slider__dots button{width:8px;height:8px;border-radius:50%;border:0;background:#555;padding:0;cursor:pointer}
 .slider__dots button[aria-current="true"]{background:#fff}
+/* зона касания 44×44 без смены вида (суд 17.11 J21) */
+.slider__dots button,.hdr__menu{position:relative}
+.slider__dots button::after,.hdr__menu::after{content:"";position:absolute;left:50%;top:50%;width:max(100%,44px);height:max(100%,44px);transform:translate(-50%,-50%)}
 .next{position:relative;min-height:600px;background:#111 center/cover no-repeat;display:flex;align-items:center}
 .next::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.0),rgba(0,0,0,.55))}
 .next__in{position:relative;width:100%;display:grid;grid-template-columns:1fr 1fr}
@@ -93,6 +94,7 @@ a{color:inherit}
 @media (max-width:960px){
   .case-intro,.blk-intro2{grid-template-columns:1fr;gap:24px;padding-block:48px 64px}
   .blk-text{grid-template-columns:1fr;row-gap:20px;padding-block:60px}
+  .blk-text .lbl{white-space:normal}  /* без боковой прокрутки на телефоне (суд 17.11, K5) */
   .media,.media-2,.slider,.media-mosaic{padding-inline:12px}
   .media-2{gap:10px}.media-mosaic{gap:10px}
   .next{min-height:470px}.next__in{grid-template-columns:1fr}.next__box{grid-column:1}
@@ -192,6 +194,7 @@ a{color:inherit}
 .form input,.form textarea,.form select{width:100%;border:0;border-bottom:1px solid #555;background:none;color:#fff;font:inherit;font-size:15px;padding:30px 0 12px;outline:none;border-radius:0}
 .form textarea{min-height:90px;resize:vertical}
 .form input:focus,.form textarea:focus{border-bottom-color:#fff}
+@media (max-width:760px){.form input,.form textarea,.form select{font-size:16px}}  /* iOS не зумит поле (суд 17.11, K5) */
 .form .chk{display:flex;gap:10px;align-items:flex-start;font-size:14px;margin:20px 0}
 .form .chk input{width:18px;height:18px;flex:0 0 18px;margin-top:2px;accent-color:#fff}
 .form .chk a{text-decoration:underline}
@@ -224,6 +227,7 @@ a{color:inherit}
 .svc__head{display:grid;grid-template-columns:7fr 5fr;gap:40px;align-items:end;border-top:1px solid #ccc;padding-top:72px}
 .svc__head h2{margin:0;font-weight:300;font-size:clamp(44px,6vw,72px);line-height:1.05;letter-spacing:-.02em}
 .svc__head p{font-size:14px;color:#666;max-width:260px;justify-self:end;margin:0}
+.svc__link{color:inherit;text-decoration:none;transition:color .3s ease}.svc__link:hover,.svc__link:focus-visible{color:#999}  /* заголовок «услуги / компетенции» ведёт на /uslugi (Михаил 17.11) */
 .svc__grid{display:grid;grid-template-columns:repeat(5,1fr);margin-top:48px}
 .svc__item{border-left:1px solid #ccc;padding:16px 20px 20px;min-height:280px;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:background .2s}
 .svc__item:last-child{border-right:1px solid #ccc}
@@ -579,12 +583,8 @@ a:is(:hover,:focus-visible) .circle,a.circle:is(:hover,:focus-visible){backgroun
 .svc-btn:hover .sv19,.sp .btn:hover::after,.svc-hub .btn:hover::after{transform:rotate(45deg)}
 /* Service pages. Every new rule is scoped to s-* classes. */
 .s-site { --tg:#1c6fb2; --pad:60px; --max:1440px; }
-.s-site .hdr, .s-site .hdr.is-scrolled { color:#111; background:#fff; border-bottom:1px solid #ededed; }
-.s-page { --svc:#f07c4f; --s-ink:#111; --s-gray:#6b6b6b; --s-line:#dedede; --s-surface:#f3f3f3; --s-hover:#1c6fb2; background:#fff; color:var(--s-ink); font:16px/1.45 var(--f); }
-.s-page--razrabotka-brendbuka { --svc:#f2cf5b; }
-.s-page--rebrending { --svc:#b9e15c; }
-.s-page--dizajn-dlya-smm { --svc:#a89bff; }
-.s-page--motion-dizajn { --svc:#62d6cb; }
+.s-site .hdr, .s-site .hdr.is-scrolled { color:#fff; background:#111; border-bottom:1px solid #111; }  /* шапка чёрная на страницах услуг (Михаил 17.11) */
+.s-page { --svc:#f07c4f; /* один оранжевый градиент цены на всех услугах (Михаил 17.11) */ --s-ink:#111; --s-gray:#6b6b6b; --s-line:#dedede; --s-surface:#f3f3f3; --s-hover:#1c6fb2; background:#fff; color:var(--s-ink); font:16px/1.45 var(--f); }
 .s-page *, .s-page *::before, .s-page *::after { min-width:0; }
 .s-page :is(h1,h2,h3,p,figure,blockquote,dl,dd) { margin:0; }
 .s-page :is(h1,h2,h3,p,a,button) { text-transform:none; }
@@ -655,7 +655,7 @@ a:is(:hover,:focus-visible) .circle,a.circle:is(:hover,:focus-visible){backgroun
 .s-showcase-canvas--motion-dizajn .s-work-primary { width:100%; height:80%; }
 .s-showcase-canvas--motion-dizajn .s-work-detail { width:54%; height:48%; }
 .s-showcase-bottom { display:flex; justify-content:space-between; align-items:end; gap:24px; padding-top:24px; margin-top:auto; }
-.s-showcase-caption { max-width:340px; font-size:26px; line-height:1.15; letter-spacing:-.035em; }
+.s-showcase-caption { max-width:440px; font-size:26px; line-height:1.15; letter-spacing:-.035em; }
 .s-showcase-controls { display:grid; grid-template-columns:44px 46px 44px 44px; align-items:center; gap:8px; flex-shrink:0; }
 .s-slide-count { color:#aaa; font-size:12px; font-variant-numeric:tabular-nums; text-align:center; white-space:nowrap; }
 .s-pause,.s-round { display:grid; place-items:center; width:44px; height:44px; padding:0; border:1px solid #555; border-radius:50%; background:transparent; color:inherit; font-size:22px; line-height:1; }
@@ -860,8 +860,8 @@ a:is(:hover,:focus-visible) .circle,a.circle:is(:hover,:focus-visible){backgroun
 .s-article:hover .s-article-image img { transform:scale(1.12); }
 .s-article:hover .s-article-copy > span { color:var(--s-hover); }
 .s-hub-hero { display:grid; grid-template-columns:1fr 1fr; gap:70px; min-height:440px; padding-top:26px; padding-bottom:38px; }
-.s-hub-hero h1 { font-size:94px; line-height:1.01; font-weight:500; letter-spacing:-.06em; margin-bottom:30px; }
-.s-hub-hero h1 > span { color:#777; display:block; font-size:.78em; }
+.s-hub-hero h1 { font-size:74px; line-height:1.01; font-weight:500; letter-spacing:-.06em; margin-bottom:30px; }
+.s-hub-hero h1 > span { color:#777; display:block; font-size:1em; }  /* одна высота строк заголовка (Михаил 17.11) */
 .s-hub-postpay { font-size:14px; color:var(--s-gray); margin-top:22px!important; }
 .s-hub-showcase { position:relative; height:355px; background:#000; border-radius:24px; overflow:hidden; }
 .s-hub-preview { position:absolute; display:block; overflow:hidden; border:5px solid #000; border-radius:18px; }
@@ -878,6 +878,9 @@ a:is(:hover,:focus-visible) .circle,a.circle:is(:hover,:focus-visible){backgroun
 .s-catalog-copy h2 a:hover { color:var(--s-hover); }
 .s-catalog-includes { display:flex; flex-wrap:wrap; gap:6px 14px; padding:0; margin:0 0 25px; list-style:none; max-width:520px; font-size:14px; line-height:1.3; color:#666; }
 .s-catalog-item:nth-child(even) .s-catalog-includes { color:#bbb; }
+.s-catalog-desc { max-width:520px; margin:0 0 28px; font-size:18px; line-height:1.45; color:#555; }
+.s-catalog-item:nth-child(even) .s-catalog-desc { color:#bbb; }
+@media (max-width:700px) { .s-catalog-desc { font-size:16px; margin-bottom:22px; } }
 .s-catalog-copy .s-amount { font-size:58px; margin-top:auto; margin-bottom:22px; }
 .s-catalog-copy .s-from { color:#666; }
 .s-catalog-item:nth-child(even) .s-from { color:#bbb; }
@@ -935,7 +938,7 @@ a:is(:hover,:focus-visible) .circle,a.circle:is(:hover,:focus-visible){backgroun
   .s-request .s-client-pill { width:98px; }
   .s-request .s-client-pill img { width:76px; }
   .s-hub-hero { gap:30px; min-height:390px; }
-  .s-hub-hero h1 { font-size:74px; }
+  .s-hub-hero h1 { font-size:58px; }
   .s-catalog-item { padding:28px; gap:30px; }
   .s-catalog-copy h2 { font-size:34px; }
 }
@@ -1078,8 +1081,8 @@ a:is(:hover,:focus-visible) .circle,a.circle:is(:hover,:focus-visible){backgroun
   .s-article-copy time { font-size:11px; }
   .s-article > svg { width:18px; height:18px; }
   .s-hub-hero { display:flex; flex-direction:column; gap:28px; min-height:0; padding-top:8px; padding-bottom:0; }
-  .s-hub-hero h1 { font-size:62px; margin-bottom:24px; }
-  .s-hub-hero h1 > span { font-size:.77em; }
+  .s-hub-hero h1 { font-size:48px; margin-bottom:24px; }
+  .s-hub-hero h1 > span { font-size:1em; }
   .s-hub-postpay { font-size:13px; }
   .s-hub-showcase { height:280px; }
   .s-hub-preview { border-width:4px; border-radius:14px; }
@@ -1107,7 +1110,92 @@ a:is(:hover,:focus-visible) .circle,a.circle:is(:hover,:focus-visible){backgroun
   .s-clients--row .s-logo-group { flex:0 0 auto; width:max-content; flex-wrap:nowrap; }
   .s-clients--row.s-is-overflowing .s-logo-group[aria-hidden=true] { display:none; }
 }
+.s-compare-note a { color:#555; text-decoration:underline; text-underline-offset:3px; }
+/* кнопки услуг (Михаил 17.11): чёрные на белом, белые на чёрном, наведение оранжевое; стрелка уходит вправо вверх */
+.s-page { --s-btn-hover:#f07c4f; }
+.s-button,.s-form .s-button { background:#111; color:#fff; border-color:#111; transition:background .25s,color .25s,border-color .25s; }
+.s-button .s-button-circle { background:#fff; color:#111; transition:background .25s,color .25s; }
+:is(.s-price,.s-ceo,.s-catalog-item:nth-child(even),.s-comparison-column:first-child .s-comparison-head,.s-showcase,.s-hub-showcase) .s-button { background:#fff; color:#111; border-color:#fff; }
+:is(.s-price,.s-ceo,.s-catalog-item:nth-child(even),.s-comparison-column:first-child .s-comparison-head,.s-showcase,.s-hub-showcase) .s-button .s-button-circle { background:#111; color:#fff; }
+.s-button:hover,.s-form .s-button:hover,:is(.s-price,.s-ceo,.s-catalog-item:nth-child(even),.s-comparison-column:first-child .s-comparison-head,.s-showcase,.s-hub-showcase) .s-button:hover { background:var(--s-btn-hover); border-color:var(--s-btn-hover); color:#111; }
+.s-button:hover .s-button-circle,:is(.s-price,.s-ceo,.s-catalog-item:nth-child(even),.s-comparison-column:first-child .s-comparison-head,.s-showcase,.s-hub-showcase) .s-button:hover .s-button-circle { background:#111; color:#fff; }
+/* подсветка ссылок-пилюль (Михаил 17.11): чёрная, скругление как у кнопок; на чёрном фоне белая; текстовые ссылки при наведении серые */
+.s-page { --s-hover:#111; }
+.s-crumbs a { padding-inline:10px; border-radius:99px; }
+.s-text-link:hover,.s-crumbs a:hover,.s-switcher button:hover,.s-case-link:hover,.s-round:hover,.s-pause:hover { background:#111; border-color:#111; color:#fff; }
+.s-showcase .s-pause:hover,.s-showcase .s-case-link:hover,.s-catalog-item:nth-child(even) .s-text-link:hover { background:#fff; border-color:#fff; color:#111; }
+.s-project:hover h3,.s-article:hover .s-article-copy > span,.s-catalog-copy h2 a:hover,.s-details-images a:hover,.s-related-card:hover,.s-compare-note a:hover { color:#8c8c8c; }
+.s-related-card:hover { border-color:#111; }
+:is(.s-text-link,.s-case-link,.s-related-link,.s-article,.s-project h3) svg { transition:transform .3s cubic-bezier(.2,.7,.2,1); }
+:is(.s-text-link:hover,.s-case-link:hover,.s-related-card:hover .s-related-link,.s-article:hover,.s-project:hover h3) svg { transform:translate(3px,-3px); }
+/* лента логотипов (Михаил 17.11): без рамок, едет всегда и не тормозит при наведении, края растворяются, цикл без шва */
+.s-logo-marquee,.s-clients--row .s-logo-marquee { overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent); mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent); }
+.s-clients .s-client-pill,.s-clients--row .s-client-pill,.s-request .s-client-pill { border:0; border-radius:0; background:transparent; }
+.s-clients .s-logo-track,.s-clients--row .s-logo-track,.s-clients--row.s-is-overflowing .s-logo-track { width:max-content; min-width:200%; animation:s-logo-scroll 24s linear infinite; }
+.s-clients--row .s-logo-group,.s-clients--row .s-logo-group[aria-hidden=true],.s-clients--row.s-is-overflowing .s-logo-group[aria-hidden=true] { display:flex; flex:1 0 auto; width:auto; justify-content:space-around; }
+.s-logo-marquee:is(:hover,:focus-within) .s-logo-track,.s-clients--row.s-is-overflowing .s-logo-marquee:is(:hover,:focus-within) .s-logo-track { animation-play-state:running; }
+@media (prefers-reduced-motion:reduce) {
+  .s-logo-marquee,.s-clients--row .s-logo-marquee { overflow-x:auto; -webkit-mask-image:none; mask-image:none; }
+  .s-clients .s-logo-track,.s-clients--row .s-logo-track,.s-clients--row.s-is-overflowing .s-logo-track { min-width:0; animation:none; }
+  .s-clients--row .s-logo-group[aria-hidden=true],.s-clients--row.s-is-overflowing .s-logo-group[aria-hidden=true],.s-logo-group[aria-hidden=true] { display:none; }
+}
+/* блок заявки чёрный, текст и логотипы белые (Михаил 17.11) */
+.s-request { background:#111; color:#fff; }
+.s-request .s-title { color:#fff; }
+.s-request .s-title > span { color:#8c8c8c; }
+.s-request-copy,.s-request .s-clients > p { color:#a6a6a6; }
+.s-request .s-client-pill img,.s-request .s-client-pill:hover img { filter:brightness(0) invert(1); opacity:.85; }
+.s-request .s-client-pill:hover img { opacity:1; }
+.s-request .s-form.form { color:#fff; }
+.s-request .s-form.form :is(input,textarea) { background:#1c1c1c; border-color:#4a4a4a; color:#fff; }
+.s-request .s-form.form :is(input,textarea)::placeholder { color:#8c8c8c; }
+.s-request .s-form.form :is(input,textarea):focus { border-color:#fff; outline-color:var(--s-btn-hover); }
+.s-request .s-form.form .note { color:#a6a6a6; }
+.s-request .s-form.form a { color:#fff; }
+.s-request .s-form.form .chk input { accent-color:#fff; }
+.s-request .s-form.form .status { color:#fff; }
+.s-request .s-form .s-button { background:#fff; color:#111; border-color:#fff; }
+.s-request .s-form .s-button .s-button-circle { background:#111; color:#fff; }
+.s-request .s-form .s-button:hover { background:var(--s-btn-hover); border-color:var(--s-btn-hover); color:#111; }
+/* «Наши статьи» последним блоком: чёрный, переходит в скругления подвала (Михаил 17.11) */
+.s-reading { background:#111; color:#fff; margin-bottom:0; }
+.s-reading .s-title > span { color:#8c8c8c; }
+.s-reading .s-article { border-top-color:#333; }
+.s-reading .s-article-image { background:#222; }
+.s-reading .s-article-copy time { color:#9a9a9a; }
+.s-reading .s-article:hover .s-article-copy > span { color:#9a9a9a; }
+/* сравнение: тело обеих колонок серое на всех услугах (Михаил 17.11) */
+.s-comparison { border-color:#e6e6e6; }
+.s-comparison-column { background:var(--s-surface); }
+.s-comparison-column + .s-comparison-head,.s-comparison-column:not(:first-child) .s-comparison-head { background:#e6e6e6; }
+.s-comparison-column + .s-comparison-column { border-left-color:#dcdcdc; }
+.s-comparison-column dl > div { border-bottom-color:#dcdcdc; }
+/* хаб: «С чего начать» (суд 17.11, J5) */
+.s-start-list { display:grid; margin-top:24px; }
+.s-start-row { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1.4fr) minmax(0,1fr) 26px; gap:30px; align-items:center; padding:22px 0; border-top:1px solid #ddd; }
+.s-start-row:last-child { border-bottom:1px solid #ddd; }
+.s-start-name { font-size:23px; line-height:1.15; letter-spacing:-.025em; }
+.s-start-when { font-size:15px; line-height:1.45; color:#555; }
+.s-start-price { font-size:15px; line-height:1.35; }
+.s-start-price small { display:block; margin-top:4px; font-size:13px; color:var(--s-gray); }
+.s-start-row svg { width:24px; height:24px; transition:transform .3s cubic-bezier(.2,.7,.2,1); }
+.s-start-row:hover .s-start-name { color:#8c8c8c; }
+.s-start-row:hover svg { transform:translate(3px,-3px); }
+@media (max-width:700px) {
+  .s-start-row { grid-template-columns:minmax(0,1fr) 18px; gap:8px 14px; padding:18px 0; }
+  .s-start-name { font-size:20px; }
+  .s-start-when,.s-start-price { grid-column:1; }
+  .s-start-row svg { grid-column:2; grid-row:1; width:18px; height:18px; }
+}
+/* моушн: примеры роликов, без автозапуска (суд 17.11, J8) */
+.s-video-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; margin-top:28px; }
+.s-video { margin:0; }
+.s-video video { display:block; width:100%; height:auto; aspect-ratio:4/3; object-fit:contain; background:#111; border-radius:22px; }
+.s-video figcaption { margin-top:12px; font-size:14px; line-height:1.4; color:var(--s-gray); }
+.s-video figcaption b { display:block; font-size:17px; font-weight:500; color:#111; margin-bottom:2px; }
+@media (max-width:960px) { .s-video-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:700px) { .s-video-grid { grid-template-columns:1fr; gap:24px; } .s-video video { border-radius:16px; } }
 @media (forced-colors:active) { .s-ceo blockquote,.s-price .s-price-digits { background:none; color:CanvasText; } }
 @media print { .s-ceo blockquote,.s-price .s-price-digits { background:none; color:#000; } }
 /* плашка cookie (Михаил 17.11: «включай») */
-.cookie-banner{position:fixed;z-index:55;right:24px;bottom:24px;width:min(400px,calc(100vw - 32px));padding:20px;border-radius:16px;background:#1d1d1d;color:#eee;font:14px/1.4 var(--f)}.cookie-banner[hidden]{display:none}.cookie-banner p{margin:0 0 16px}.cookie-banner .svc-btn{float:right;min-height:44px;padding:6px 6px 6px 20px;font-size:14px}.cookie-banner::after{content:'';display:block;clear:both}.cookie-banner .v-btn-arrow{width:30px;height:30px;flex-basis:30px}@media(max-width:760px){.cookie-banner{left:16px;right:16px;bottom:16px;width:auto}body:has(.cta-bar) .cookie-banner{bottom:calc(88px + env(safe-area-inset-bottom,0px))}}
+.cookie-banner{position:fixed;z-index:55;right:24px;bottom:24px;width:min(400px,calc(100vw - 32px));padding:20px;border-radius:16px;background:#1d1d1d;color:#eee;font:14px/1.4 var(--f)}.cookie-banner[hidden]{display:none}.cookie-banner p{margin:0 0 16px}.cookie-banner .svc-btn{float:right;min-height:44px;padding:6px 6px 6px 20px;font-size:14px}.cookie-banner::after{content:'';display:block;clear:both}.cookie-banner .v-btn-arrow{width:30px;height:30px;flex-basis:30px}@media(max-width:760px){.cookie-banner{left:16px;right:16px;bottom:16px;width:auto;display:flex;align-items:center;gap:12px;padding:10px 10px 10px 16px}.cookie-banner p{margin:0;font-size:13px;line-height:1.35}.cookie-banner .svc-btn{float:none;flex:0 0 auto}.cookie-banner::after{display:none}body:has(.cta-bar) .cookie-banner{bottom:calc(88px + env(safe-area-inset-bottom,0px))}}

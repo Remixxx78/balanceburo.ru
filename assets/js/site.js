@@ -76,21 +76,26 @@
     f.addEventListener('submit', function (e) {
       e.preventDefault();
       var st = f.querySelector('.status, .qform__ok');
+      if (!st && f.nextElementSibling && f.nextElementSibling.matches('.qform__ok')) st = f.nextElementSibling; // в подвале статус стоит после формы
       if (f.querySelector('.hp input') && f.querySelector('.hp input').value) return; // бот
-      if (f.closest('.leadform--light') && !f.reportValidity()) return;
+      if (!f.reportValidity()) return; // novalidate снимает только нативную проверку при submit, обязательные поля и согласие проверяем сами
       var data = {}; new FormData(f).forEach(function (v, k) { if (typeof v !== 'string') return; data[k] = data[k] ? data[k] + ', ' + v : v; });
-      data.form = f.getAttribute('data-lead'); data.page = location.pathname; data.ref = d.referrer || '';
+      var lp = String(f.getAttribute('data-lead') || '').split(':'), lead = lp[0];
+      data.form = lead === 'services' ? 'service' : lead; if (lp[1]) data.service = lp[1]; // воркер режет form до 20 знаков: услугу шлём отдельным полем (суд 17.11, K3)
+      data.page = location.pathname; data.ref = d.referrer || '';
       var q = location.search; if (q) data.utm = q.slice(1);
       var btn = f.querySelector('[type=submit]'); if (btn) btn.disabled = true;
       if (st) st.textContent = 'Отправляем…';
-      var done = function (ok) {
+      var done = function (code) {
         if (btn) btn.disabled = false;
-        if (ok) { if (st) st.textContent = 'Спасибо! Мы свяжемся с вами в ближайшее время.'; f.reset(); goal('lead_' + data.form); }
-        else if (st) st.innerHTML = 'Не получилось отправить. Напишите нам в <a href="https://t.me/Misolodin">Telegram</a> или на info@balanceburo.ru.';
+        if (code >= 200 && code < 300) { if (st) st.textContent = 'Спасибо! Мы свяжемся с вами в ближайшее время.'; f.reset(); goal(lead === 'service' || lead === 'services' ? 'lead_service' : 'lead_' + lead, lp[1] ? { service: lp[1] } : undefined); }
+        else if (st) st.innerHTML = code === 400 ? 'Проверьте контакт: нужен e-mail или номер телефона.'
+          : code === 429 ? 'Слишком много отправок подряд. Напишите нам в <a href="https://t.me/Misolodin">Telegram</a> или на info@balanceburo.ru.'
+          : 'Не получилось отправить. Напишите нам в <a href="https://t.me/Misolodin">Telegram</a> или на info@balanceburo.ru.';
       };
-      if (!EP) { done(false); return; }
+      if (!EP) { done(0); return; }
       fetch(EP, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-        .then(function (r) { done(r.ok); }).catch(function () { done(false); });
+        .then(function (r) { done(r.status); }).catch(function () { done(0); });
     });
   });
 })();

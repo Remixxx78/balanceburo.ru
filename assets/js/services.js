@@ -26,7 +26,9 @@
       var task = request && request.querySelector('textarea[name="text"]');
       if (!task) return;
       event.preventDefault();
-      task.value = 'Хочу заказать: ' + button.getAttribute('data-s-order');
+      var label = 'Хочу заказать: ' + button.getAttribute('data-s-order').replace(/\u00a0/g, ' ');
+      var rest = task.value.replace(/^Хочу заказать: [^\n]*\n?/, ''); // набранное не затираем, прежнюю строку «Хочу заказать» меняем (суд 17.11, K4)
+      task.value = rest ? label + '\n' + rest : label;
       task.dispatchEvent(new Event('input', { bubbles: true }));
       request.scrollIntoView({ behavior: reduce.matches ? 'instant' : 'smooth', block: 'start' });
       task.focus({ preventScroll: true });
