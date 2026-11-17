@@ -130,13 +130,44 @@
     if (next) next.addEventListener('click', function () { move(1); });
   });
 
+  // FAQ: ответ раскрывается и закрывается плавно, открыт один вопрос (Михаил 17.11: «плавнее, сейчас дёрганое»)
+  function faqSet(entry, open) {
+    var answer = entry.querySelector('.s-dialogue-answer');
+    if (entry._faqAnim) { entry._faqAnim.cancel(); entry._faqAnim = null; }
+    entry.classList.toggle('s-closing', !open);
+    if (!answer || reduce.matches || !answer.animate) { entry.open = open; entry.classList.remove('s-closing'); return; }
+    if (open) entry.open = true;
+    var cs = getComputedStyle(answer);
+    var full = { height: answer.offsetHeight + 'px', paddingTop: cs.paddingTop, paddingBottom: cs.paddingBottom, marginTop: cs.marginTop, opacity: 1, transform: 'translateY(0)' };
+    var none = { height: '0px', paddingTop: '0px', paddingBottom: '0px', marginTop: '0px', opacity: 0, transform: 'translateY(-6px)' };
+    answer.style.overflow = 'hidden';
+    var anim = answer.animate(open ? [none, full] : [full, none], { duration: open ? 460 : 340, easing: 'cubic-bezier(.22,.61,.36,1)' });
+    entry._faqAnim = anim;
+    anim.onfinish = function () {
+      entry._faqAnim = null; answer.style.overflow = '';
+      if (!open) { entry.open = false; entry.classList.remove('s-closing'); }
+    };
+  }
   page.querySelectorAll('.s-faq-list').forEach(function (list) {
     list.querySelectorAll('details').forEach(function (entry) {
-      entry.addEventListener('toggle', function () {
-        if (entry.open) list.querySelectorAll('details').forEach(function (other) {
-          if (other !== entry) other.open = false;
-        });
+      var summary = entry.querySelector('summary');
+      if (!summary) return;
+      summary.addEventListener('click', function (event) {
+        event.preventDefault();
+        var opening = !entry.open || entry.classList.contains('s-closing');
+        if (opening) list.querySelectorAll('details[open]').forEach(function (other) { if (other !== entry && !other.classList.contains('s-closing')) faqSet(other, false); });
+        faqSet(entry, opening);
       });
     });
   });
+  // хаб «С чего начать»: картинка кейса едет за курсором (Михаил 17.11, как в портфолио)
+  var startList = page.querySelector('.s-start-list');
+  if (startList && window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    startList.addEventListener('mousemove', function (event) {
+      var box = startList.getBoundingClientRect(), half = 170;
+      var x = Math.max(half, Math.min(box.width - half, event.clientX - box.left + 210));
+      startList.style.setProperty('--px', x + 'px');
+      startList.style.setProperty('--py', (event.clientY - box.top) + 'px');
+    });
+  }
 })();
