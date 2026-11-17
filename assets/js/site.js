@@ -3,6 +3,18 @@
   var d = document, root = d.documentElement;
   root.classList.remove('no-js');
 
+  // Cookie: отказ хранилища не мешает закрыть плашку в текущем сеансе.
+  var cookieBanner = d.querySelector('[data-cookie-banner]');
+  if (cookieBanner) {
+    var accepted = false;
+    try { accepted = localStorage.getItem('bb-cookie-ok') === '1'; } catch (e) {}
+    cookieBanner.hidden = accepted;
+    cookieBanner.querySelector('[data-cookie-accept]').addEventListener('click', function () {
+      try { localStorage.setItem('bb-cookie-ok', '1'); } catch (e) {}
+      cookieBanner.hidden = true;
+    });
+  }
+
   // шапка: фон после прокрутки
   var hdr = d.querySelector('.hdr');
   function onScroll() { if (hdr) hdr.classList.toggle('is-scrolled', window.scrollY > 40); }

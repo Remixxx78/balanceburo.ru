@@ -1109,3 +1109,5 @@ a:is(:hover,:focus-visible) .circle,a.circle:is(:hover,:focus-visible){backgroun
 }
 @media (forced-colors:active) { .s-ceo blockquote,.s-price .s-price-digits { background:none; color:CanvasText; } }
 @media print { .s-ceo blockquote,.s-price .s-price-digits { background:none; color:#000; } }
+/* плашка cookie (Михаил 17.11: «включай») */
+.cookie-banner{position:fixed;z-index:55;right:24px;bottom:24px;width:min(400px,calc(100vw - 32px));padding:20px;border-radius:16px;background:#1d1d1d;color:#eee;font:14px/1.4 var(--f)}.cookie-banner[hidden]{display:none}.cookie-banner p{margin:0 0 16px}.cookie-banner .svc-btn{float:right;min-height:44px;padding:6px 6px 6px 20px;font-size:14px}.cookie-banner::after{content:'';display:block;clear:both}.cookie-banner .v-btn-arrow{width:30px;height:30px;flex-basis:30px}@media(max-width:760px){.cookie-banner{left:16px;right:16px;bottom:16px;width:auto}body:has(.cta-bar) .cookie-banner{bottom:calc(88px + env(safe-area-inset-bottom,0px))}}
