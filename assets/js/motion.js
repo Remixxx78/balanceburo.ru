@@ -74,32 +74,29 @@
     box.addEventListener('mouseleave', function () { tx = ty = 0; if (!moving) { moving = true; raf(bmove); } });
   }
 
-  // 5. главная: кружки B/B падают на заголовок; при наведении разлетаются (эксперимент)
-  var drop = d.querySelector('.bb-drop'), hero = drop && drop.parentElement;
-  if (drop && !calm) {
-    var H1 = hero.querySelector('h1'), bar = hero.querySelector('.h-hero__bar');
-    var balls = [], solids = [], Wd = 0, Hd = 0, floorY = 0, live = false, mx = -1e4, my = -1e4, last = 0;
-    var kinds = ['o', 'k', 'w', 'o', 'k', 'w', 'k', 'o', 'w', 'k'];
-    function layout() {
-      var hr = hero.getBoundingClientRect(); Wd = hr.width; Hd = hr.height;
-      solids = [];
-      [].forEach.call(H1.children, function (sp) {
-        var rg = d.createRange(); rg.selectNodeContents(sp);
-        [].forEach.call(rg.getClientRects(), function (b) {
-          solids.push({ x0: b.left - hr.left + 4, x1: b.right - hr.left - 4, y0: b.top - hr.top + b.height * 0.33, y1: b.top - hr.top + b.height * 0.8 });
-        });
+  // 5. кружки B/B падают и ложатся на текст; при наведении разлетаются.
+  //    Главная — на заголовок (Михаил 17.11); статьи — в белую плашку внизу (Михаил 18.11: «чтобы сюда сваливались под разным углом и размером»)
+  function bbDrop(drop, host, cfg) {
+    var side = cfg.side || 0, balls = [], solids = [], Wd = 0, Hd = 0, floorY = 0, live = false, mx = -1e4, my = -1e4, last = 0, quiet = 0, woke = 0;
+    function rectsOf(el, hr, top, bot, inset) {
+      var rg = d.createRange(); rg.selectNodeContents(el);
+      [].forEach.call(rg.getClientRects(), function (b) {
+        solids.push({ x0: b.left - hr.left + inset, x1: b.right - hr.left - inset, y0: b.top - hr.top + b.height * top, y1: b.top - hr.top + b.height * bot });
       });
-      floorY = bar ? bar.getBoundingClientRect().top - hr.top - 8 : Hd;
+    }
+    function layout() {
+      var hr = host.getBoundingClientRect(); Wd = hr.width; Hd = hr.height; solids = [];
+      floorY = cfg.layout(hr, rectsOf, function (el) { var r = el.getBoundingClientRect(); solids.push({ x0: r.left - hr.left, x1: r.right - hr.left, y0: r.top - hr.top, y1: r.bottom - hr.top }); });
     }
     function make() {
       layout();
-      var n = Wd < 700 ? 6 : 10, dia = clamp(Wd * 0.062, 46, 104);
+      var n = cfg.count(Wd);
       for (var i = 0; i < n; i++) {
-        var el = d.createElement('span'); el.className = kinds[i % kinds.length]; el.textContent = 'B/B';
+        var dia = cfg.dia(Wd, i), el = d.createElement('span'); el.className = cfg.kinds[i % cfg.kinds.length]; el.textContent = 'B/B';
         el.style.setProperty('--d', dia + 'px'); drop.appendChild(el);
-        var sd = solids.length && Math.random() < 0.65 ? solids[i % solids.length] : null;
-        balls.push({ el: el, r: dia / 2, cool: 0, x: sd ? clamp(sd.x0 + Math.random() * (sd.x1 - sd.x0), dia, Wd - dia) : dia + Math.random() * (Wd - 2 * dia), y: -dia - i * dia * 0.9 - Math.random() * 120,
-          vx: (Math.random() - 0.5) * 60, vy: 0, a: Math.random() * 40 - 20, delay: 0.25 + i * 0.09 });
+        var sd = solids.length && Math.random() < cfg.onText ? solids[i % solids.length] : null;
+        balls.push({ el: el, r: dia / 2, cool: 0, x: sd ? clamp(sd.x0 + Math.random() * (sd.x1 - sd.x0), dia, Wd - dia) : side + dia + Math.random() * (Wd - 2 * side - 2 * dia), y: -dia - i * dia * 0.9 - Math.random() * 120,
+          vx: (Math.random() - 0.5) * 60, vy: 0, a: Math.random() * 80 - 40, delay: 0.25 + i * 0.09 });
       }
     }
     function collideRect(b, s) {
@@ -120,12 +117,12 @@
           if (b.delay > 0) { b.delay -= h; return; }
           var ddx = b.x - mx, ddy = b.y - my, dist = Math.sqrt(ddx * ddx + ddy * ddy);
           if (b.cool > 0) b.cool -= h;
-          else if (dist < b.r + 30) { var ux = ddx / Math.max(dist, 1), uy = ddy / Math.max(dist, 1); b.vx += ux * 950; b.vy += uy * 500 - 1100; b.cool = 0.35; }
+          else if (dist < b.r + 30) { var ux = ddx / Math.max(dist, 1), uy = ddy / Math.max(dist, 1); b.vx += ux * 950; b.vy += uy * 500 - cfg.kick; b.cool = 0.35; }
           b.vy += 2400 * h; b.vx *= 0.999; b.x += b.vx * h; b.y += b.vy * h;
           solids.forEach(function (sd) { collideRect(b, sd); });
           if (b.y + b.r > floorY) { b.y = floorY - b.r; if (b.vy > 0) b.vy *= -0.3; b.vx *= 0.96; }
-          if (b.x - b.r < 0) { b.x = b.r; b.vx = Math.abs(b.vx) * 0.5; }
-          if (b.x + b.r > Wd) { b.x = Wd - b.r; b.vx = -Math.abs(b.vx) * 0.5; }
+          if (b.x - b.r < side) { b.x = side + b.r; b.vx = Math.abs(b.vx) * 0.5; }
+          if (b.x + b.r > Wd - side) { b.x = Wd - side - b.r; b.vx = -Math.abs(b.vx) * 0.5; }
         });
         for (var i = 0; i < balls.length; i++) for (var j = i + 1; j < balls.length; j++) {
           var A = balls[i], B = balls[j]; if (A.delay > 0 || B.delay > 0) continue;
@@ -145,15 +142,36 @@
       quiet = awake ? 0 : quiet + dt; if (t - woke > 9000) quiet = 1;
       if (quiet < 0.6) raf(tick); else { live = false; last = 0; }
     }
-    var quiet = 0, woke = 0;
     function wake() { woke = performance.now(); quiet = 0; if (!live) { live = true; last = 0; raf(tick); } }
-    function start() { make(); wake(); }
-    if (d.readyState === 'complete') setTimeout(start, 150); else W.addEventListener('load', function () { setTimeout(start, 150); });
-    hero.addEventListener('pointermove', function (e) {
-      var r = hero.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top;
+    function start() { if (!balls.length) { make(); wake(); } }
+    if (cfg.onView && 'IntersectionObserver' in W) {
+      var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); setTimeout(start, 150); } }, { rootMargin: '0px 0px -20% 0px' });
+      io.observe(host);
+    } else if (d.readyState === 'complete') setTimeout(start, 150); else W.addEventListener('load', function () { setTimeout(start, 150); });
+    host.addEventListener('pointermove', function (e) {
+      var r = host.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top;
       if (balls.some(function (b) { var x = b.x - mx, y = b.y - my; return x * x + y * y < (b.r + 40) * (b.r + 40); })) wake();
     });
-    hero.addEventListener('pointerleave', function () { mx = my = -1e4; });
+    host.addEventListener('pointerleave', function () { mx = my = -1e4; });
     W.addEventListener('resize', function () { if (balls.length) { layout(); balls.forEach(function (b) { b.x = clamp(b.x, b.r, Wd - b.r); }); wake(); } });
   }
+  if (!calm) d.querySelectorAll('.bb-drop').forEach(function (drop) {
+    var host = drop.parentElement;
+    if (drop.classList.contains('bb-drop--cta')) {
+      // плашка статьи: кружки чёрные и контурные, разного размера; пролетают за текстом и ложатся на дно плашки (там полоса под них)
+      bbDrop(drop, host, { onView: true, onText: 0, side: 22, kick: 900, kinds: ['k', 'w', 'k', 'k', 'w', 'k', 'w', 'k', 'k'],
+        count: function (w) { return w < 700 ? 6 : 9; },
+        dia: function (w, i) { var base = clamp(w * 0.062, 44, 80); return Math.round(base * [1, .72, 1.2, .85, 1.08, .64, .95, 1.15, .78][i % 9]); },
+        layout: function (hr) { return hr.height - 6; } });
+    } else {
+      var H1 = host.querySelector('h1'), bar = host.querySelector('.h-hero__bar');
+      bbDrop(drop, host, { onView: false, onText: 0.65, kick: 1100, kinds: ['o', 'k', 'w', 'o', 'k', 'w', 'k', 'o', 'w', 'k'],
+        count: function (w) { return w < 700 ? 6 : 10; },
+        dia: function (w) { return clamp(w * 0.062, 46, 104); },
+        layout: function (hr, rectsOf) {
+          [].forEach.call(H1.children, function (sp) { rectsOf(sp, hr, 0.33, 0.8, 4); });
+          return bar ? bar.getBoundingClientRect().top - hr.top - 8 : hr.height;
+        } });
+    }
+  });
 })();
