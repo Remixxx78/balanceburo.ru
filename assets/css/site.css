@@ -1293,3 +1293,34 @@ a:is(:hover,:focus-visible) .circle,a.circle:is(:hover,:focus-visible){backgroun
 
 /* P1-6: заголовок мобильной карточки таблицы — p вместо h3, тот же вид */
 .art-body .art-compare-card .art-compare-card__t{font:400 24px/1.2 var(--f);text-wrap:pretty}
+
+/* Образец брифа таблицей (статья №3, Михаил 18.11: «таблицу стильную и системную»): раздел слева, номера кружками,
+   белый кружок — обязательный вопрос */
+.art-body .art-qtable{table-layout:fixed;margin:0;font-size:17px;line-height:1.5}
+.art-body .art-qtable caption{caption-side:top;text-align:left;padding:0 0 24px;color:var(--art-dim);font-size:14px;line-height:24px}
+.art-qtable caption .art-qn{width:24px;height:24px;font-size:11px;margin-right:8px;vertical-align:top}
+.art-qtable caption .art-qn~.art-qn{margin-left:24px}
+.art-body .art-qtable tr>*{width:auto;padding:18px 0;color:#fff;font-size:inherit;vertical-align:top;border-bottom:1px solid #ffffff24}
+.art-body .art-qtable thead th{padding:0 0 12px;font-size:13px;color:var(--art-dim);vertical-align:bottom;border-bottom:1px solid #ffffff40}
+.art-body .art-qtable thead th:first-child{width:200px}
+.art-body .art-qtable thead th:nth-child(2){width:64px}
+.art-body .art-qtable tbody th{padding:16px 24px 18px 0;font-size:22px;line-height:1.25;border-bottom-color:#ffffff40}
+.art-body .art-qtable tbody tr:last-child>td{border-bottom-color:#ffffff40}
+.art-body .art-qtable td:has(>.art-qn){padding:15px 0}
+.art-qn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;box-shadow:inset 0 0 0 1px #ffffff66;color:#fff;font-size:14px;line-height:1;font-variant-numeric:tabular-nums}
+.art-qn--req{background:#fff;color:#000;box-shadow:none}
+.art-body > :has(+ h2) .art-qtable tbody:last-child :is(tr:last-child>*,th[rowspan]){border-bottom:0}
+@media(max-width:1279px){.art-body .art-qtable thead th:first-child{width:160px}}
+@media(max-width:700px){
+ .art-body .art-qtable,.art-qtable tbody{display:block}
+ .art-qtable thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+ .art-body .art-qtable caption{display:block;padding-bottom:8px}
+ .art-qtable tr{display:grid;grid-template-columns:48px minmax(0,1fr)}
+ .art-body .art-qtable tr>*{display:block}
+ .art-body .art-qtable tbody th{grid-column:1/-1;padding:28px 0 4px;border-bottom:0}
+ .art-body .art-qtable td{font-size:17px;padding:14px 0}
+ .art-body .art-qtable td:has(>.art-qn){padding:12px 0}
+}
+/* Чек-лист: зелёная галочка «ок» (Михаил 18.11, общий стиль чек-листов всех статей) */
+.art-checks>li{padding-left:44px}
+.art-checks>li::before{content:'';top:21px;width:26px;height:26px;border-radius:50%;background:#2fd06c url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.5 12.5l3.8 3.8 7.4-8.3' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/18px no-repeat}
