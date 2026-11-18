@@ -456,7 +456,7 @@ a{color:inherit}
 .art-doc-icon{display:block;width:48px;height:48px;margin-bottom:16px;color:#fff}
 .art-compare-mobile{display:none}
 .art-compare-card{padding:28px 0;border-block:1px solid #ffffff40}
-.art-compare-card h3{display:flex;align-items:center;gap:16px;margin:0 0 28px;color:#fff}
+.art-compare-card h3,.art-compare-card .art-compare-card__t{display:flex;align-items:center;gap:16px;margin:0 0 28px;color:#fff}
 .art-compare-card .art-doc-icon{margin:0;flex:none}
 .art-compare-card dl{margin:0}.art-compare-card dt{font-size:13px;color:var(--art-dim);margin:20px 0 8px}.art-compare-card dd{font-size:18px;margin:0}
 .art-ba{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}
@@ -1287,3 +1287,9 @@ a:is(:hover,:focus-visible) .circle,a.circle:is(:hover,:focus-visible){backgroun
 .ab-w::after{content:'/'}
 /* кейс без файла логотипа — без пустой колонки слева (18.11) */
 .art-body .art-case[data-case]:not(:has(.art-case-logo)){display:block}
+
+/* P1-1 аудита 17.11: услуга второй строкой внутри H1 кейса */
+.case-intro h1 .case-h1__svc{display:block;margin-top:16px;font-size:clamp(20px,2.1vw,28px);line-height:1.3;letter-spacing:0;font-weight:400}
+
+/* P1-6: заголовок мобильной карточки таблицы — p вместо h3, тот же вид */
+.art-body .art-compare-card .art-compare-card__t{font:400 24px/1.2 var(--f);text-wrap:pretty}
