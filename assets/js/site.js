@@ -30,6 +30,16 @@
   });
   d.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu) menu.classList.remove('is-open'); });
 
+  // ролики в слайдерах кейсов: постер + кнопка, плеер Vimeo грузится только по клику (суд 19.11)
+  d.querySelectorAll('.slide-vid').forEach(function (f) {
+    var b = f.querySelector('.vplay'); if (!b) return;
+    b.addEventListener('click', function () {
+      var r = d.createElement('div'); r.className = 'ratio vid';
+      r.innerHTML = '<iframe src="https://player.vimeo.com/video/' + f.getAttribute('data-vimeo') + '?autoplay=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Видео из кейса"></iframe>';
+      f.innerHTML = ''; f.appendChild(r);
+    });
+  });
+
   // слайдеры
   d.querySelectorAll('.slider').forEach(function (s) {
     var t = s.querySelector('.slider__track'), n = t.children.length, dots = s.querySelector('.slider__dots');
