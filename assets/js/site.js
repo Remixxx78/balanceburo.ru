@@ -101,7 +101,8 @@
         if (code >= 200 && code < 300) { if (st) st.textContent = 'Спасибо! Мы свяжемся с вами в ближайшее время.'; f.reset(); goal(lead === 'service' || lead === 'services' ? 'lead_service' : 'lead_' + lead, lp[1] ? { service: lp[1] } : undefined); }
         else if (st) st.innerHTML = code === 400 ? 'Проверьте контакт: нужен e-mail или номер телефона.'
           : code === 429 ? 'Слишком много отправок подряд. Напишите нам на info@balanceburo.ru.'
-          : 'Не получилось отправить. Напишите нам на info@balanceburo.ru.';
+          : code === 502 ? 'Заявку сохранили, но доставка задержалась. Чтобы не ждать, напишите нам в <a href="https://t.me/Misolodin">Telegram</a> или на info@balanceburo.ru.' // воркер: Telegram не ответил, заявка в очереди досылки (20.11)
+          : 'Не получилось отправить. Напишите нам в <a href="https://t.me/Misolodin">Telegram</a> или на info@balanceburo.ru.';
       };
       if (!EP) { done(0); return; }
       fetch(EP, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
