@@ -109,6 +109,7 @@
   page.querySelectorAll('[data-s-ai]').forEach(function (toggle) {
     var section = toggle.closest('.s-price');
     toggle.addEventListener('change', function () {
+      section.classList.toggle('s-is-ai', toggle.checked);  // цена: оранжевее и другой угол градиента (Михаил 21.11)
       section.querySelectorAll('.s-price-label, .s-price-amounts').forEach(function (group) {
         var alternate = group.querySelector('[data-s-ai-value]');
         var standard = group.querySelector('[data-s-standard]');
