@@ -763,6 +763,8 @@ a:is(:hover,:focus-visible) .circle,a.circle:is(:hover,:focus-visible){backgroun
 .s-ai-control input:checked + .s-ai-track::after { background:#111; transform:translateX(20px); }
 .s-ai-control input:focus-visible + .s-ai-track { outline:3px solid var(--s-hover); outline-offset:5px; }
 .s-ai > p { font-size:13px; line-height:1.45; color:#aaa; max-width:600px; }
+.s-ai-logos { display:inline-flex; align-items:center; gap:10px; margin-left:4px; }
+.s-ai-logos svg { display:block; width:20px; height:20px; flex:0 0 20px; fill:#fff; stroke:none; }
 .s-cost-grid { display:grid; grid-template-columns:minmax(0,1fr) 275px; gap:56px; }
 .s-price-row { display:grid; grid-template-columns:25% minmax(0,1fr); align-items:center; row-gap:12px; border-top:1px solid #444; padding:20px 0 24px; }
 .s-price-label h3 { font-size:26px; line-height:1.1; letter-spacing:-.03em; font-weight:500; padding-right:20px; }
