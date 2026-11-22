@@ -1368,3 +1368,5 @@ a:is(:hover,:focus-visible) .circle,a.circle:is(:hover,:focus-visible){backgroun
 .art-body .art-ext--wide .art-credit{margin-top:14px}
 @media(max-width:700px){.art-body .art-ext--wide{padding:14px;border-radius:20px}.art-body .art-ext--wide img{max-height:none}}
 .art-cards--white .art-card h3+ul,.art-cards--white .art-card h3+p{margin-top:0}
+.art-pills+p{margin-top:24px}
+@media(min-width:701px){.art-cards--links:has(>.art-card:nth-child(2):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}}
