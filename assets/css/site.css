@@ -1347,3 +1347,24 @@ a:is(:hover,:focus-visible) .circle,a.circle:is(:hover,:focus-visible){backgroun
 .slide-vid{position:relative}
 .slide-vid .vplay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:0;background:none;padding:0;cursor:pointer;line-height:0}
 .slide-vid .vplay svg{display:block;filter:drop-shadow(0 2px 8px rgba(0,0,0,.35))}
+/* Статьи, правки Михаила 21.11: графика в таблицах, белые карточки с рисунком, вывод с рисунком, текст рядом с картинкой — от верха */
+.art-rowlab{display:flex;align-items:center;gap:14px;color:#fff;font-size:15px}
+.art-body .art-doc-icon--row{width:34px;height:34px;margin:0;flex:none;color:#fff}
+.art-row-thumb{flex:none;width:72px;height:54px;border-radius:10px;overflow:hidden;background:#fff}
+.art-row-thumb img{display:block;width:100%;height:100%;object-fit:cover}
+.art-cards--white .art-card{background:#fff;color:#111;border:0;border-radius:28px;padding:24px 24px 28px}
+.art-cards--white .art-card h3,.art-cards--white .art-card a{color:#111}
+.art-cards--white .art-card li::marker{color:#111}
+.art-cards--white.art-cards--sizes .art-ill{max-width:240px;border-radius:20px}
+.art-body .art-key--ill{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:28px;align-items:center;padding:20px 20px 20px 28px}
+.art-key--ill>p{margin:0}
+.art-body .art-key--ill>.art-ill{margin:0;border-radius:18px;width:150px}
+.art-split{align-items:start}
+.art-pills{display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin:24px 0 0;padding:0;list-style:none}
+.art-pills>li{margin:0;padding:12px 22px;border:1px solid #ffffff80;border-radius:999px;font-size:20px;line-height:1.3;color:#fff}
+@media(max-width:700px){.art-body .art-key--ill{grid-template-columns:minmax(0,1fr) 96px;gap:16px;padding:18px 16px 18px 20px}.art-body .art-key--ill>.art-ill{width:96px;border-radius:14px}.art-row-thumb{width:56px;height:42px}.art-pills>li{font-size:18px}}
+.art-body .art-ext--wide{margin:32px 0;background:#fff;border-radius:28px;padding:24px}
+.art-body .art-ext--wide img{height:auto;max-height:none;background:none;border-radius:8px}
+.art-body .art-ext--wide .art-credit{margin-top:14px}
+@media(max-width:700px){.art-body .art-ext--wide{padding:14px;border-radius:20px}.art-body .art-ext--wide img{max-height:none}}
+.art-cards--white .art-card h3+ul,.art-cards--white .art-card h3+p{margin-top:0}
