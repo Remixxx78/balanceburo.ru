@@ -92,7 +92,7 @@
       var data = {}; new FormData(f).forEach(function (v, k) { if (typeof v !== 'string') return; data[k] = data[k] ? data[k] + ', ' + v : v; });
       var lp = String(f.getAttribute('data-lead') || '').split(':'), lead = lp[0];
       data.form = lead === 'services' ? 'service' : lead; if (lp[1]) data.service = lp[1]; // воркер режет form до 20 знаков: услугу шлём отдельным полем (суд 17.11, K3)
-      data.page = location.pathname; data.ref = d.referrer || '';
+      data.page = location.pathname; data.title = d.title; data.ref = d.referrer || ''; // title — чтобы в Telegram было видно, с какой страницы заявка (23.11)
       var q = location.search; if (q) data.utm = q.slice(1);
       var btn = f.querySelector('[type=submit]'); if (btn) btn.disabled = true;
       if (st) st.textContent = 'Отправляем…';
