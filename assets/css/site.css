@@ -1276,7 +1276,7 @@ a:is(:hover,:focus-visible) .circle,a.circle:is(:hover,:focus-visible){backgroun
 .art-body > .art-compare-desktop:has(+ .art-compare-mobile + h2) tbody tr:last-child > *{border-bottom:0}
 .art-body > .art-compare-mobile:has(+ h2) .art-compare-card:last-child{border-bottom:0}
 .art-body > :is(.art-steps,.art-checks):is(:has(+ h2),:last-child) > li:last-child,
-.art-body > .art-split:is(:has(+ h2),:last-child) :is(.art-steps,.art-checks) > li:last-child{border-bottom:0}
+.art-body > .art-split:is(:has(+ h2),:has(+ .art-case),:last-child) :is(.art-steps,.art-checks) > li:last-child{border-bottom:0}
 .art-author{border-top:0}
 .art-body > .art-case[data-case]:has(+ h2){border-bottom:0}
 .art-compare-card + .art-compare-card{border-top:0}
@@ -1370,3 +1370,20 @@ a:is(:hover,:focus-visible) .circle,a.circle:is(:hover,:focus-visible){backgroun
 .art-cards--white .art-card h3+ul,.art-cards--white .art-card h3+p{margin-top:0}
 .art-pills+p{margin-top:24px}
 @media(min-width:701px){.art-cards--links:has(>.art-card:nth-child(2):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Пара кадров разной формы одной высоты: 16:9 + 1:1 (виды логотипов, Михаил в Figma 25.11: «перепридумать блок») */
+.art-body .art-pair{display:grid;grid-template-columns:minmax(0,1.778fr) minmax(0,1fr);gap:16px;align-items:start}
+.art-pair>img{width:100%;height:auto}
+.art-pair>figcaption{grid-column:1/-1}
+@media(max-width:700px){.art-body .art-pair{grid-template-columns:1fr}}
+/* Таблицы-сравнения: сетка пересечений, шапка в цвете темы статьи, пиктограммы строк в цвете темы (Михаил в Figma 25.11: «сетку пересечения и более креативную таблицу», «акценты в цвет темы») */
+.art-body .art-compare-desktop{border:1px solid #ffffff38;border-radius:24px}
+.art-body .art-compare{border-collapse:separate;border-spacing:0}
+.art-body .art-compare th,.art-body .art-compare td{padding:22px 24px;border-bottom:1px solid #ffffff2e;border-left:1px solid #ffffff2e}
+.art-body .art-compare tr>:first-child{border-left:0;padding-left:24px}
+.art-body .art-compare tbody tr:last-child>*{border-bottom:0}
+.art-body .art-compare thead th{background:var(--art-theme,#fff);color:#000;border-color:#0000001f;font-size:20px;font-weight:500}
+.art-body .art-compare thead th:first-child{border-top-left-radius:23px}.art-body .art-compare thead th:last-child{border-top-right-radius:23px}
+.art-body .art-compare thead .art-doc-icon{color:#000}
+.art-body .art-compare thead tr>:first-child{color:#0009;font-size:14px}
+.art-body .art-compare tbody tr>:first-child{color:#fff;font-size:15px}
+.art-body .art-compare .art-doc-icon--row{color:var(--art-theme,#fff)}
